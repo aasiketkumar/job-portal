@@ -3,6 +3,7 @@ import api from '../services/api';
 import { Search, MapPin, DollarSign, Building, CheckCircle, Loader2, X } from 'lucide-react';
 import ApplyModal from '../components/ApplyModal';
 import { useAuth } from '../context/AuthContext';
+import { toast } from 'react-toastify';
 
 const Home = () => {
     const { user } = useAuth();
@@ -48,16 +49,16 @@ const Home = () => {
     const handleApply = async (jobId, data) => {
         try {
             await api.post(`/jobs/apply/${jobId}`, data);
-            alert('Application submitted successfully!');
+            toast.success('Application submitted successfully!');
             setSelectedJob(null);
             fetchJobs(); // Refresh to show "Applied"
         } catch (err) {
-            alert(err.response?.data?.message || 'Failed to apply.');
+            toast.error(err.response?.data?.message || 'Failed to apply.');
         }
     };
 
     return (
-        <div className="min-h-screen bg-slate-950 text-slate-100 p-8 pt-20">
+        <div className="min-h-screen bg-slate-950 text-slate-100 p-4 md:p-8 pt-28 md:pt-32">
             <div className="max-w-4xl mx-auto">
                 <h1 className="text-4xl font-bold text-center mb-8">Find Your Dream Job</h1>
 
@@ -116,7 +117,7 @@ const Home = () => {
                                             </button>
                                         ) : !user ? (
                                             <button
-                                                onClick={() => alert('Please login as a seeker to apply')}
+                                                onClick={() => toast.info('Please login as a seeker to apply')}
                                                 className="bg-slate-800 text-slate-400 px-6 py-2 rounded-lg border border-slate-700 hover:text-white transition font-semibold"
                                             >
                                                 Apply Now

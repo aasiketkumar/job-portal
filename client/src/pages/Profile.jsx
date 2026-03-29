@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 import { User, Mail, Shield, BookOpen, Save, Award } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 const Profile = () => {
     const { user, setUser } = useAuth();
@@ -43,10 +44,12 @@ const Profile = () => {
                     skills: skillsArray
                 }
             });
-            setUser({ ...user, name: res.data.name }); // Update local context
-            alert('Profile updated successfully!');
+            const updatedUser = { ...user, name: res.data.name };
+            setUser(updatedUser); // Update local context
+            localStorage.setItem('user', JSON.stringify(updatedUser)); // Sync localStorage
+            toast.success('Profile updated successfully!');
         } catch (err) {
-            alert('Failed to update profile');
+            toast.error('Failed to update profile');
         } finally {
             setSaving(false);
         }
@@ -55,19 +58,25 @@ const Profile = () => {
     if (loading) return <div className="text-white text-center p-20">Loading Profile...</div>;
 
     return (
-        <div className="min-h-screen bg-slate-950 text-slate-100 p-8 pt-24">
+        <div className="min-h-screen bg-slate-950 text-slate-100 p-4 md:p-8 pt-28 md:pt-36">
             <div className="max-w-2xl mx-auto">
-                <div className="bg-slate-900 rounded-3xl border border-slate-800 shadow-2xl overflow-hidden">
-                    <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-8">
-                        <div className="flex items-center gap-6">
-                            <div className="bg-white/20 p-4 rounded-2xl backdrop-blur-md">
-                                <User size={48} className="text-white" />
+                <div className="bg-slate-900 rounded-[2.5rem] border border-slate-800 shadow-2xl overflow-hidden">
+                    <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-8 md:p-12 relative overflow-hidden">
+                        {/* Decorative circle */}
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+
+                        <div className="relative flex flex-col items-center gap-6 text-center">
+                            <div className="bg-white/20 p-5 rounded-[2.5rem] backdrop-blur-xl shadow-2xl border border-white/30 transform hover:scale-110 transition duration-500">
+                                <User size={64} className="text-white" />
                             </div>
-                            <div>
-                                <h1 className="text-3xl font-bold text-white">{user.name}</h1>
-                                <p className="text-blue-100 flex items-center gap-1 opacity-80 uppercase tracking-widest text-xs font-bold mt-1">
-                                    <Shield size={12} /> {user.role} Account
-                                </p>
+                            <div className="space-y-2">
+                                <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight drop-shadow-md">{user.name}</h1>
+                                <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/20 rounded-full backdrop-blur-md border border-white/30">
+                                    <Shield size={14} className="text-blue-100" />
+                                    <span className="text-blue-50 text-[10px] md:text-xs font-black uppercase tracking-[0.2em]">
+                                        {user.role} Account
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const auth = require('../middleware/auth');
+
 
 router.post('/register', async (req, res) => {
     try {
@@ -56,7 +58,7 @@ router.put('/profile', auth, async (req, res) => {
         const user = await User.findByIdAndUpdate(
             req.user.id,
             { name, profile },
-            { new: true }
+            { new: true, returnDocument: 'after' }
         ).select('-password');
         res.json(user);
     } catch (err) {

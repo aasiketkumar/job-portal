@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { Briefcase, Building, MapPin, DollarSign, Send } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 const PostJob = () => {
     const [formData, setFormData] = useState({
@@ -11,26 +12,25 @@ const PostJob = () => {
         location: '',
         salary: '',
     });
-    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             await api.post('/jobs', formData);
+            toast.success('Job posted successfully!');
             navigate('/');
         } catch (err) {
-            setError('Failed to post job. Please try again.');
+            toast.error(err.response?.data?.message || 'Failed to post job. Please try again.');
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-950 p-4 pt-12">
-            <div className="w-full max-w-2xl bg-slate-900 p-8 rounded-2xl border border-slate-800 shadow-2xl">
-                <h2 className="text-3xl font-bold text-center text-white mb-8 flex items-center justify-center gap-2">
-                    <Briefcase className="text-blue-400" /> Post a New Job
+        <div className="min-h-screen flex items-center justify-center bg-slate-950 p-4 pt-32 pb-12">
+            <div className="w-full max-w-2xl bg-slate-900/50 backdrop-blur-sm p-6 md:p-10 rounded-3xl border border-slate-800 shadow-2xl">
+                <h2 className="text-3xl md:text-4xl font-extrabold text-center text-white mb-10 flex items-center justify-center gap-3">
+                    <Briefcase className="text-blue-400 w-8 h-8 md:w-10 md:h-10" /> Post a New Job
                 </h2>
-                {error && <p className="text-red-400 bg-red-400/10 p-3 rounded-lg mb-6 text-sm text-center">{error}</p>}
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-2">
@@ -105,8 +105,8 @@ const PostJob = () => {
                         ></textarea>
                     </div>
 
-                    <button className="w-full bg-blue-600 text-white p-4 rounded-lg font-bold hover:bg-blue-700 transition flex items-center justify-center gap-2 text-lg">
-                        <Send size={20} /> Publish Job Listing
+                    <button className="w-full bg-blue-600 text-white p-4 rounded-xl font-bold hover:bg-blue-700 transition flex items-center justify-center gap-2 text-lg shadow-lg shadow-blue-500/20 active:scale-[0.98]">
+                        <Send size={22} /> Publish Job Listing
                     </button>
                 </form>
             </div>

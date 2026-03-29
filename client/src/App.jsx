@@ -9,6 +9,8 @@ import PostJob from './pages/PostJob'
 import Dashboard from './pages/Dashboard'
 import EditJob from './pages/EditJob'
 import Profile from './pages/Profile'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
   return (
@@ -16,6 +18,7 @@ function App() {
       <AuthProvider>
         <div className="bg-slate-950 min-h-screen">
           <Navbar />
+          <ToastContainer position="top-right" autoClose={3000} theme="dark" />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />

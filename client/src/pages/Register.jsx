@@ -5,7 +5,6 @@ import { User, Mail, Lock, UserPlus } from 'lucide-react';
 
 const Register = () => {
     const [formData, setFormData] = useState({ name: '', email: '', password: '', role: 'seeker' });
-    const [error, setError] = useState('');
     const { register } = useAuth();
     const navigate = useNavigate();
 
@@ -15,15 +14,20 @@ const Register = () => {
             await register(formData.name, formData.email, formData.password, formData.role);
             navigate('/');
         } catch (err) {
-            setError('Registration failed. Try again.');
+            // Error handled in AuthContext
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-950 p-4">
-            <div className="w-full max-w-md bg-slate-900 p-8 rounded-2xl border border-slate-800 shadow-2xl">
-                <h2 className="text-3xl font-bold text-center text-white mb-8">Create Account</h2>
-                {error && <p className="text-red-400 bg-red-400/10 p-3 rounded-lg mb-6 text-sm">{error}</p>}
+        <div className="min-h-screen flex items-center justify-center bg-slate-950 p-6 pt-24 md:pt-12">
+            <div className="w-full max-w-md bg-slate-900/50 backdrop-blur-sm p-6 md:p-10 rounded-3xl border border-slate-800 shadow-2xl">
+                <div className="mb-10 text-center">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600/10 rounded-2xl mb-4 border border-blue-500/20">
+                        <UserPlus className="text-blue-500" size={32} />
+                    </div>
+                    <h2 className="text-3xl md:text-4xl font-bold text-white">Create Account</h2>
+                    <p className="text-slate-400 mt-2">Join us and find your dream job today</p>
+                </div>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-2">
                         <label className="text-slate-400 text-sm">Full Name</label>
@@ -78,7 +82,7 @@ const Register = () => {
                             <option value="employer">Employer</option>
                         </select>
                     </div>
-                    <button className="w-full bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700 transition flex items-center justify-center gap-2">
+                    <button className="w-full bg-blue-600 text-white p-4 rounded-xl font-bold hover:bg-blue-700 transition flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 active:scale-[0.98]">
                         <UserPlus size={20} /> Register
                     </button>
                 </form>
