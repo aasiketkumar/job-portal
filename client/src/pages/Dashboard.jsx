@@ -131,8 +131,8 @@ const Dashboard = () => {
                                                 <h3 className="text-xl font-bold mb-1">{app.seekerId.name}</h3>
                                                 <p className="text-slate-400 text-sm mb-3">{app.seekerId.email}</p>
                                                 <div className="flex flex-wrap gap-4">
-                                                    <a href={app.resumeLink} target="_blank" rel="noreferrer" className="text-blue-400 hover:underline flex items-center gap-1 text-sm font-medium">
-                                                        <ExternalLink size={14} /> View Resume
+                                                    <a href={app.resumeLink} download={`${app.seekerId.name.replace(/\s+/g, '_')}_Resume.pdf`} target="_blank" rel="noreferrer" className="text-blue-400 hover:underline flex items-center gap-1 text-sm font-medium">
+                                                        <ExternalLink size={14} /> Download Resume
                                                     </a>
                                                     <StatusBadge status={app.status} />
                                                 </div>

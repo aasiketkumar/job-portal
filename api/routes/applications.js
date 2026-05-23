@@ -6,22 +6,20 @@ const auth = require('../middleware/auth');
 const multer = require('multer');
 const path = require('path');
 
-// Configure Multer for local storage
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/');
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
-    }
-});
-
+// Configure Multer for memory storage (for Vercel serverless)
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 // Upload resume endpoint
 router.post('/upload', auth, upload.single('resume'), (req, res) => {
     if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
-    res.json({ filePath: `/uploads/${req.file.filename}` });
+
+    // Convert buffer to base64 Data URI
+    const base64Data = req.file.buffer.toString('base64');
+    const mimeType = req.file.mimetype;
+    const fileUri = `data:${mimeType};base64,${base64Data}`;
+
+    res.json({ filePath: fileUri });
 });
 
 // Get seeker's applications
