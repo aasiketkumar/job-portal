@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
-import { Briefcase, FileText, CheckCircle, Clock, XCircle, Users, ExternalLink, Trash2, Edit } from 'lucide-react';
+import { Briefcase, FileText, CheckCircle, Clock, XCircle, Users, ExternalLink, Trash2, Edit, MapPin } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
