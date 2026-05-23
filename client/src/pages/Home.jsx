@@ -86,9 +86,12 @@ const Home = () => {
                 </form>
 
                 {loading && !searching ? (
-                    <div className="flex flex-col items-center justify-center py-20 opacity-50">
-                        <Loader2 className="animate-spin mb-4" size={48} />
-                        <p>Loading the latest jobs for you...</p>
+                    <div className="flex flex-col items-center justify-center py-20">
+                        <div className="bg-slate-900 border border-slate-800 p-8 rounded-2xl flex flex-col items-center shadow-2xl animate-pulse">
+                            <Loader2 className="animate-spin text-blue-500 mb-4" size={48} />
+                            <h2 className="text-xl font-bold text-slate-200">Loading Jobs</h2>
+                            <p className="text-slate-500 text-sm mt-2">Loading the latest jobs for you...</p>
+                        </div>
                     </div>
                 ) : (
                     <div className="grid gap-6">
