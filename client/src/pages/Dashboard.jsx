@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
-import { Briefcase, FileText, CheckCircle, Clock, XCircle, Users, ExternalLink, Trash2, Edit, MapPin } from 'lucide-react';
+import { Briefcase, FileText, CheckCircle, Clock, XCircle, Users, ExternalLink, Trash2, Edit, MapPin, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -90,7 +90,17 @@ const Dashboard = () => {
         );
     };
 
-    if (loading) return <div className="text-white text-center p-20">Loading Dashboard...</div>;
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center pt-20">
+                <div className="bg-slate-900 border border-slate-800 p-8 rounded-2xl flex flex-col items-center shadow-2xl animate-pulse">
+                    <Loader2 className="animate-spin text-blue-500 mb-4" size={48} />
+                    <h2 className="text-xl font-bold text-slate-200">Loading Dashboard</h2>
+                    <p className="text-slate-500 text-sm mt-2">Fetching your metrics...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-slate-950 text-white p-4 md:p-8 pt-28 md:pt-36">
